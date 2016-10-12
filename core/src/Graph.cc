@@ -241,6 +241,8 @@ Graph build(const Pool::DescriptionMap& description, std::vector<ModulePtr>& mod
         LOG(fatal) << "Exception while sorting the graph. Graphviz representation saved as graph.debug";
         throw;
     }
+    graphviz_export(g, "graph.dot");
+    //dot -T png graph.dot -o graph.png
 
 
     // Remove virtual vertices
@@ -318,8 +320,8 @@ Graph build(const Pool::DescriptionMap& description, std::vector<ModulePtr>& mod
             << target.name
             << "' to " << one_of_the << " Looper" << plural << " execution path";
 
-        throw incomplete_looper_path("A module is using the looper output but not actually part of its "
-                "execution path");
+        //throw incomplete_looper_path("A module is using the looper output but not actually part of its "
+        //        "execution path");
     }
 
     return g;
