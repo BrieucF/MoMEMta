@@ -256,6 +256,18 @@ class MatrixElement: public Module {
                                                                                toVector(partons[1]) };
 
             auto result = m_ME->compute(initialState, finalState);
+            for (const auto& me: result) {
+                LOG(info) << "Proper " <<  me.second;
+            }
+            std::vector<std::pair<int, std::vector<double>>> otherfinalState = finalState;
+            std::vector<double> onebutlast = otherfinalState[otherfinalState.size()-2].second;
+            std::vector<double> last = otherfinalState[otherfinalState.size()-1].second;
+            otherfinalState[otherfinalState.size()-1].second = onebutlast;
+            otherfinalState[otherfinalState.size()-2].second = last;
+            auto otherResult =  m_ME->compute(initialState, otherfinalState);
+            for (const auto& me: otherResult) {
+                LOG(info) << "Inversed " <<  me.second;
+            }
 
             double x1 = std::abs(partons[0].Pz() / (sqrt_s / 2.));
             double x2 = std::abs(partons[1].Pz() / (sqrt_s / 2.));
